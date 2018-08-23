@@ -1,0 +1,12 @@
+th, td{
+	text-align: center;
+}
+
+input {
+	margin: 5px;
+}
+
+table {
+	max-width: 80%;
+	margin: 5px;
+}
