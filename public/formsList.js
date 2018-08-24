@@ -2,7 +2,7 @@ $( document ).ready(function() {
     console.log( "ready!" );
 });
 
-$("#move2formBuilder").click(function(){
+$(".move2formBuilder").click(function(){
 	const express = require('express');
 	const app = express();
 
