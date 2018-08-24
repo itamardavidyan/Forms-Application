@@ -9,7 +9,7 @@ app.get("/", (req,res) =>{
 
 app.route('/goData')
  	.get(function (req, res) {
-		res.sendFile(__dirname + '/public/formBuilder.html');
+		res.sendFile(__dirname + '/formBuilder/formBuilder.html');
 });
 
 const PORT = process.env.PORT || 3000;
