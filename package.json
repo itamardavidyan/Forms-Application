@@ -1,12 +1,12 @@
 {
-  "name": "tutorial",
+  "name": "forms-application-itamar",
   "version": "1.0.0",
   "description": "",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "^4.13.3"
+    "express": "^4.16.3"
   },
   "author": "Kathryn Hodge",
   "license": "ISC"
