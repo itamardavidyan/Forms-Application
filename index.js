@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+var path = process.cwd();
 
 app.use(express.static(__dirname + '/public'));
 
@@ -9,7 +10,7 @@ app.get("/", (req,res) =>{
 
 app.route('/goData')
  	.get(function (req, res) {
-		res.sendFile(__dirname + '/formBuilder/formBuilder.html');
+		res.sendFile(path  + '/public/formBuilder/formBuilder.html');
 });
 
 const PORT = process.env.PORT || 3000;
