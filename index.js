@@ -8,10 +8,10 @@ app.get("/", (req,res) =>{
 	res.sendfile(__dirname + '/index.html');
 });
 
-app.route('/formBuilder')
+/*app.route('/formBuilder')
  	.get(function (req, res) {
 		res.sendFile(path  + '/public/formBuilder/formBuilder.html');
-});
+});*/
 
 app.route('/formList')
  	.get(function (req, res) {
