@@ -8,15 +8,17 @@ app.get("/", (req,res) =>{
 	res.sendfile(__dirname + '/index.html');
 });
 
-/*app.route('/formBuilder')
- 	.get(function (req, res) {
-		res.sendFile(path  + '/public/formBuilder/formBuilder.html');
-});*/
-
 app.route('/formList')
  	.get(function (req, res) {
 		res.sendFile(path  + '/public/index.html');
 });
+ 	
+app.route('/formBuilder')
+ 	.get(function (req, res) {
+		res.sendFile(path  + '/public/formBuilder/formBuilder.html');
+});
+
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT);
