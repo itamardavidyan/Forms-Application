@@ -10,7 +10,7 @@ app.get("/", (req,res) =>{
 
 app.route('/formList')
  	.get(function (req, res) {
-		res.sendFile(__dirname + '/index.html');
+		res.sendFile(path + '/index.html');
 });
 
 app.route('/formBuilder')
