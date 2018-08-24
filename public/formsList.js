@@ -1,4 +1,4 @@
-function back2formsList() {
+$("#move2formBuilder").click(function(){
 	const express = require('express');
 	const app = express();
 
@@ -6,9 +6,5 @@ function back2formsList() {
 
 	app.get("/", (req,res) =>{
 		res.sendfile(__dirname + '/formBuilder/formBuilder.html');
-	});	
-}
-
-$("#back2formsList").click(function(){
-	back2formsList();
+	});
 });
