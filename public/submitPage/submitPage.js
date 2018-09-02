@@ -14,7 +14,6 @@ $(document).ready(function(){
 				fields = result.fields;
 				$("#formTitle").append('"' + result.form_name + '"');
 				$.each(fields, function(fieldName, field){
-					// console.log(field);
 					var formRow = '<form class="form-inline">' + 
 									'<div class="form-group">' + 
 										'<label>' + field.fieldLabel + ':</label>' + 
@@ -26,7 +25,6 @@ $(document).ready(function(){
 		        });
 			},
 			error : function(e) {
-				// alert("ERROR: ", e);
 				console.log("ERROR: ", e);
 			}
 		});	
@@ -44,10 +42,6 @@ $(document).ready(function(){
 	        jsonObjInputName[inputName] = inputVal;
 		});
 
-
-		console.log(JSON.stringify(jsonObjInputName));
-
-    	// var formName = $('#form-name-input').val();
     	$.post("/send",{fieldID: fieldId , answer: JSON.stringify(jsonObjInputName) }, function(data){
 
 		});

@@ -3,8 +3,6 @@ const app = express();
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-// var connect = require('connect');
-// var appl = connect();
 var http = require('http');
 var fs = require('fs');
 var path = require('path');
@@ -18,7 +16,6 @@ var MongoClient = require('mongodb').MongoClient;
 var mongoDBurl = "mongodb://itamard:Google100!@ds229312.mlab.com:29312/forms";
 mongoose.connect(mongoDBurl);
 
-// var forms;
 var formSchema = new mongoose.Schema({
 	form_id: String,
 	form_name: String,
@@ -36,19 +33,16 @@ app.use(express.static('public/submitPage'))
 
 app.get('/', function(req,res) {
 	console.log("/");
-	console.log(req.params);
 	res.sendFile('index.html', {root: path.join(__dirname, './public')});
 });
 
 app.get('/index', function(req,res) {
 	console.log("/index");
-	// console.log(req.params);
 	res.sendFile(path.join(__dirname + '/public/index.html'));
 });
 
 app.get('/formBuilder', function(req,res) {
 	console.log("/formBuilder");
-	// console.log(req.params);
 	res.sendFile(path.join(__dirname + '/public/formBuilder/formBuilder.html'));
 });
 
@@ -60,7 +54,6 @@ app.get('/submit', function(req,res) {
 app.get('/setForm', function(req, res) {
     console.log('/setForm');
     var fieldId = req.query.fieldID;
-    console.log(fieldId);
 
     MongoClient.connect(mongoDBurl, function(err, db) {
 		if (err) throw err;
@@ -68,8 +61,6 @@ app.get('/setForm', function(req, res) {
 
 		dbo.collection("forms").findOne({form_id:fieldId}, function(err, result) {
 			if (err) throw err;
-
-			// console.log(result);
 			res.send(result);
 			db.close();
 		});
@@ -78,7 +69,6 @@ app.get('/setForm', function(req, res) {
 
 app.get('/submissions', function(req,res) {
 	console.log("/submissions");
-	// console.log(req.params);
 	res.sendFile(path.join(__dirname + '/public/submissionsPage/submissionsPage.html'));
 });
 
@@ -90,7 +80,6 @@ app.get('/setTable', function(req, res) {
 
 		dbo.collection("forms").find({}).toArray(function(err, result) {
 			if (err) throw err;
-			// console.log(result);
 			res.send(result);
 			db.close();
 		});
@@ -100,7 +89,6 @@ app.get('/setTable', function(req, res) {
 app.get('/setSubmissionsTable', function(req, res) {
     console.log('/setSubmissionsTable');
     var fieldId = req.query.fieldID;
-    console.log(fieldId);
 
 	Submit.findOne(
 		{ form_id:fieldId },
@@ -115,7 +103,6 @@ app.get('/setSubmissionsTable', function(req, res) {
 
 app.post('/save', function(req, res) {
     console.log('/save');
-    console.log(req.body);
     MongoClient.connect(mongoDBurl, function(err, db) {
 		if (err) throw err;
 		var dbo = db.db("forms");
@@ -150,7 +137,6 @@ app.post('/save', function(req, res) {
 app.post('/send', function(req, res) {
 	console.log('/send');
     var fieldId = req.body.fieldID;
-    console.log(fieldId);
 
 	Submit.updateOne(
 		{ form_id:fieldId },
@@ -160,18 +146,14 @@ app.post('/send', function(req, res) {
 		}
 	);
 
-
     var obj = JSON.parse(req.body.answer);
-    console.log(obj);
     for(var input in obj) {
-    	console.log(input);
     	var pushObj = {
 
     	}
     	var newField = 'submissions.' + input;
         pushObj[newField] = obj[input];
 
-		console.log(obj[input]);
 		Submit.updateOne(
 			{ form_id:fieldId },
 			{$push: pushObj},
@@ -183,8 +165,8 @@ app.post('/send', function(req, res) {
 
 });
 
-// const PORT = process.env.PORT || 3000;
-const PORT = 8080;
+const PORT = process.env.PORT || 3000;
+// const PORT = 8080;
 app.listen(PORT, function() {
 	console.log("listen to PORT 8080");
 });

@@ -19,16 +19,12 @@ $(document).ready(function(){
 
         fieldNum++;
 
-        console.log(fieldLabelVal + " " + inputNameVal + " " + inputTypeVal);
-
         var markup = "<tr><td>" + fieldLabelVal + "</td><td>" + inputNameVal + "</td><td>" + inputTypeVal + "</td></tr>";
         $("table tbody").append(markup);
     });
 
     $("#save").click(function(){
     	var formName = $('#form-name-input').val();
-
-    	// console.log("form_name: " + formName);
     	$.post("/save",{formname: formName, tabledata: JSON.stringify(jsonObjFields), inputNames: JSON.stringify(jsonObjInputName) }, function(data){
 
 		});

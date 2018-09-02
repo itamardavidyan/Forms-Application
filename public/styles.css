@@ -1,7 +1,3 @@
-input {
-	margin: 5px;
-}
-
-label {
-	margin: 5px;
+th, td {
+	text-align: center;
 }

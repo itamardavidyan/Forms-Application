@@ -1,14 +1,7 @@
 $( document ).ready(function() {
-    console.log( "ready!" );
-
-/*    $.ajax({
-        type: 'POST',
-        url: 'http://localhost:8080/setTable'
-    });*/
 
     ajaxGet();
-	
-	// DO GET
+
 	function ajaxGet(){
 		$.ajax({
 			type : "GET",
@@ -22,7 +15,7 @@ $( document ).ready(function() {
 										'<td>' + form.num_submissions + '</td>' +
 										'<td>' + '<a href="/submit?fieldID=' + form.form_id + '">View</a>' + '</td>' +
 										'<td>' + '<a href="/submissions?fieldID=' + form.form_id + '">View</a>' + '</td>' +
-									  '</tr>';
+								  '</tr>';
 					
 					$('#formsTable tbody').append(formRow);
 					
@@ -32,7 +25,6 @@ $( document ).ready(function() {
 				$( "#formsTable tbody tr:even" ).addClass("success");
 			},
 			error : function(e) {
-				// alert("ERROR: ", e);
 				console.log("ERROR: ", e);
 			}
 		});	
