@@ -88,7 +88,7 @@ app.get('/setTable', function(req, res) {
 
 app.get('/setSubmissionsTable', function(req, res) {
     console.log('/setSubmissionsTable');
-    var fieldId = req.query.fieldID;
+    var fieldId = parseInt(req.query.fieldID);
 
 	Submit.findOne(
 		{ form_id:fieldId },
@@ -136,7 +136,7 @@ app.post('/save', function(req, res) {
 
 app.post('/send', function(req, res) {
 	console.log('/send');
-    var fieldId = req.body.fieldID;
+    var fieldId = parseInt(req.body.fieldID);
 
 	Submit.updateOne(
 		{ form_id:fieldId },
@@ -165,8 +165,8 @@ app.post('/send', function(req, res) {
 
 });
 
-const PORT = process.env.PORT || 3000;
-// const PORT = 8080;
+// const PORT = process.env.PORT || 3000;
+const PORT = 8080;
 app.listen(PORT, function() {
 	console.log("listen to PORT 8080");
 });
