@@ -28,7 +28,7 @@ $(document).ready(function(){
 						var id = i+1;
 						$('#submissionsTable tbody').append('<tr> <td> ' + id + '</td>' + rows[i] + '</tr>');						
 					}
-				}
+				});
 			},
 			error : function(e) {
 				console.log("ERROR: ", e);
