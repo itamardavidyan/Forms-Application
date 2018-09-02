@@ -17,7 +17,7 @@ var mongoDBurl = "mongodb://itamard:Google100!@ds229312.mlab.com:29312/forms";
 mongoose.connect(mongoDBurl);
 
 var formSchema = new mongoose.Schema({
-	form_id: String,
+	form_id: Number,
 	form_name: String,
 	num_submissions: Number,
 	fields: mongoose.Schema.Types.Mixed,
@@ -116,10 +116,10 @@ app.post('/save', function(req, res) {
 				.next()
 				.then(
 				function(doc) {
-					lastID = parseInt(doc.form_id);
+					lastID = doc.form_id; //parseInt(
 					lastID += 1;
 
-					var myobj = { form_id: lastID.toString() , form_name: req.body.formname, num_submissions:0, fields: JSON.parse(req.body.tabledata), submissions: JSON.parse(req.body.inputNames) };
+					var myobj = { form_id: lastID , form_name: req.body.formname, num_submissions:0, fields: JSON.parse(req.body.tabledata), submissions: JSON.parse(req.body.inputNames) };
 
 					dbo.collection("forms").insertOne(myobj, function(err, res) {
 						if (err) throw err;
