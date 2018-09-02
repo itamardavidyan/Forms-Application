@@ -13,7 +13,13 @@
   "author": "Itamar Davidyan",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.3",
+    "connect": "^3.6.6",
     "express": "^4.16.3",
-    "mongodb": "^2.2.33"
+    "jsdom": "^12.0.0",
+    "mongodb": "^2.2.36",
+    "mongoose": "^5.2.12",
+    "mongoose-dynamic-schemas": "^1.2.5",
+    "url": "^0.11.0"
   }
 }

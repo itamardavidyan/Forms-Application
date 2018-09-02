@@ -1,14 +1,57 @@
 $(document).ready(function(){
-    $("#addField").click(function(){
-        var fieldLabel = $( "#field-label-input" ).val();
-        var inputName = $( "#input-name" ).val();
-        var inputType = $( "#input-type" ).val();
+	var inputSum = 0;
+	var urlParams = new URLSearchParams(window.location.search);
+	var fieldId = urlParams.get('fieldID');
+	var fields;
 
-        console.log(fieldLabel + " " + inputName + " " + inputType);
+	ajaxGet();
+	
+	function ajaxGet(){
+		$.ajax({
+			type : "GET",
+			url : '/setForm?fieldID=' + fieldId,
+			success: function(result){
+				fields = result.fields;
+				$("#formTitle").append('"' + result.form_name + '"');
+				$.each(fields, function(fieldName, field){
+					// console.log(field);
+					var formRow = '<form class="form-inline">' + 
+									'<div class="form-group">' + 
+										'<label>' + field.fieldLabel + ':</label>' + 
+										'<input type="' + field.inputType + '" class="form-control" id="' + fieldName + '">' + 
+										'</div>' +
+							   	  '</form>';
+					$('#formInit').append(formRow);
+					inputSum++;
+		        });
+			},
+			error : function(e) {
+				// alert("ERROR: ", e);
+				console.log("ERROR: ", e);
+			}
+		});	
+	}
 
-        var markup = "<tr><td>" + fieldLabel + "</td><td>" + inputName + "</td><td>" + inputType + "</td></tr>";
-        $("table tbody").append(markup);
+
+    $("#send").click(function(){
+    	var jsonObjInputName = {
+
+		}
+
+		$.each(fields, function(fieldName, field){
+			var inputVal = $( "#" + fieldName ).val();
+			var inputName = field.inputName;
+	        jsonObjInputName[inputName] = inputVal;
+		});
 
 
+		console.log(JSON.stringify(jsonObjInputName));
+
+    	// var formName = $('#form-name-input').val();
+    	$.post("/send",{fieldID: fieldId , answer: JSON.stringify(jsonObjInputName) }, function(data){
+
+		});
     });
 });
+
+

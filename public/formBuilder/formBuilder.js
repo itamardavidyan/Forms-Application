@@ -1,14 +1,36 @@
+var jsonObjFields = {
+
+}
+var jsonObjInputName = {
+
+}
+var fieldNum = 1;
+
 $(document).ready(function(){
     $("#addField").click(function(){
-        var fieldLabel = $( "#field-label-input" ).val();
-        var inputName = $( "#input-name" ).val();
-        var inputType = $( "#input-type" ).val();
+        var fieldLabelVal = $( "#field-label-input" ).val();
+        var inputNameVal = $( "#input-name" ).val();
+        var inputTypeVal = $( "#input-type" ).val();
 
-        console.log(fieldLabel + " " + inputName + " " + inputType);
+        var newField = "field" + fieldNum;
+		var myObj = { fieldLabel: fieldLabelVal, inputName: inputNameVal, inputType: inputTypeVal};
+        jsonObjFields[newField] = myObj;
+        jsonObjInputName[inputNameVal] = [];
 
-        var markup = "<tr><td>" + fieldLabel + "</td><td>" + inputName + "</td><td>" + inputType + "</td></tr>";
+        fieldNum++;
+
+        console.log(fieldLabelVal + " " + inputNameVal + " " + inputTypeVal);
+
+        var markup = "<tr><td>" + fieldLabelVal + "</td><td>" + inputNameVal + "</td><td>" + inputTypeVal + "</td></tr>";
         $("table tbody").append(markup);
+    });
 
+    $("#save").click(function(){
+    	var formName = $('#form-name-input').val();
 
+    	// console.log("form_name: " + formName);
+    	$.post("/save",{formname: formName, tabledata: JSON.stringify(jsonObjFields), inputNames: JSON.stringify(jsonObjInputName) }, function(data){
+
+		});
     });
 });
