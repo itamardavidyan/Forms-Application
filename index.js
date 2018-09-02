@@ -53,7 +53,7 @@ app.get('/submit', function(req,res) {
 
 app.get('/setForm', function(req, res) {
     console.log('/setForm');
-    var fieldId = req.query.fieldID;
+    var fieldId = parseInt(req.query.fieldID);
 
     MongoClient.connect(mongoDBurl, function(err, db) {
 		if (err) throw err;
