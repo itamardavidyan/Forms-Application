@@ -78,7 +78,7 @@ app.get('/setTable', function(req, res) {
 		if (err) throw err;
 		var dbo = db.db("forms");
 
-		dbo.collection("forms").find({}).toArray(function(err, result) {
+		dbo.collection("forms").find({}).sort({form_id: 1}).toArray(function(err, result) {
 			if (err) throw err;
 			res.send(result);
 			db.close();
