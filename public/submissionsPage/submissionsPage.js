@@ -3,7 +3,8 @@ $(document).ready(function(){
 	var fieldId = urlParams.get('fieldID');
 
     ajaxGet();
-	
+	getFormName();
+
 	function ajaxGet(){
 		$.ajax({
 			type : "GET",
@@ -29,6 +30,19 @@ $(document).ready(function(){
 						$('#submissionsTable tbody').append('<tr> <td> ' + id + '</td>' + rows[i] + '</tr>');						
 					}
 				});
+			},
+			error : function(e) {
+				console.log("ERROR: ", e);
+			}
+		});	
+	}
+
+	function getFormName(){
+		$.ajax({
+			type : "GET",
+			url : '/setFormName?fieldID=' + fieldId,
+			success: function(name){
+				$("#formName").append('"' + name + '"');
 			},
 			error : function(e) {
 				console.log("ERROR: ", e);
