@@ -1,9 +1,11 @@
 # Forms-Application
 Wix home exam
-Client side - js + jquery.
-Server side - node.js + express.js.
-DataBase - mongoDB + mongoose.js (storage in mLab).
-Hosting - Heroku - https://formsapplication.herokuapp.com/ .
+
+# Stacks
+* Client side - js + jquery.
+* Server side - node.js + express.js.
+* DataBase - mongoDB + mongoose.js (storage in mLab).
+* Hosting - Heroku - https://formsapplication.herokuapp.com/ .
 
 # Instructions
  1. clone this repo - https://github.com/itamardavidyan/Forms-Application.git .
