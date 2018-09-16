@@ -8,7 +8,7 @@ var fs = require('fs');
 var path = require('path');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
-var Request = require('request');
+var request = require('request');
 var mongooseDynamic = require ('mongoose-dynamic-schemas');
 var Schema = mongoose.Schema;
 var jsdom = require("jsdom");
@@ -151,32 +151,60 @@ app.post('/save', function(req, res) {
 app.post('/send', function(req, res) {
 	console.log('/send');
 
-	var fieldId = parseInt(req.body.fieldID);
-
-	Submit.updateOne(
-		{ form_id:fieldId },
-		{ $inc: { num_submissions: 1 } },
-		function(err, db) {
-			if (err) throw err;
+	if(
+		req.body.captcha === undefined ||
+		req.body.captcha === '' ||
+		req.body.captcha === null
+	){
+		return res.json({"success": false, "msg":"Please select captcha"});
+	}
+	
+	// Secret Key
+	const secretKey = '6Ld4dXAUAAAAALrlykkWBZHLBAmX1ExULMsLwvdV';
+	
+	// Verify URL
+	const verifyUrl = `https://google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body.captcha}&remoteip=${req.connection.remoteAddress}`;
+	
+	// Make Request To VerifyURL
+	request(verifyUrl, (err, response, body) => {
+		body = JSON.parse(body);
+		console.log(body);
+	
+		// If Not Successful
+		if(body.success !== undefined && !body.success){
+			return res.json({"success": false, "msg":"Failed captcha verification"});
 		}
-	);
-
-	var obj = JSON.parse(req.body.answer);
-	for(var input in obj) {
-		var pushObj = {
-
-		}
-		var newField = 'submissions.' + input;
-		pushObj[newField] = obj[input];
+	
+		//If Successful
+		var fieldId = parseInt(req.body.fieldID);
 
 		Submit.updateOne(
 			{ form_id:fieldId },
-			{$push: pushObj},
+			{ $inc: { num_submissions: 1 } },
 			function(err, db) {
 				if (err) throw err;
 			}
 		);
-	}
+	
+		var obj = JSON.parse(req.body.answer);
+		for(var input in obj) {
+			var pushObj = {
+	
+			}
+			var newField = 'submissions.' + input;
+			pushObj[newField] = obj[input];
+	
+			Submit.updateOne(
+				{ form_id:fieldId },
+				{$push: pushObj},
+				function(err, db) {
+					if (err) throw err;
+				}
+			);
+		}
+
+		return res.json({"success": true, "msg":"Captcha passed"});
+	});
 });
 
 // const PORT = process.env.PORT || 3000;

@@ -32,6 +32,8 @@ $(document).ready(function(){
 
 
     $("#send").click(function(){
+		const captcha = document.querySelector('#g-recaptcha-response').value;
+
     	var jsonObjInputName = {
 
 		}
@@ -41,9 +43,25 @@ $(document).ready(function(){
 			var inputName = field.inputName;
 	        jsonObjInputName[inputName] = inputVal;
 		});
-    	$.post("/send",{ fieldID: fieldId , answer: JSON.stringify(jsonObjInputName) }, function(data){
 
+		fetch('/send', {
+			method:'POST',
+			headers: {
+			  'Accept': 'application/json, text/plain, */*',
+			  'Content-type':'application/json'
+			},
+			body:JSON.stringify({fieldID:fieldId, answer: JSON.stringify(jsonObjInputName), captcha: captcha})
+		})
+		.then((res) => res.json())
+		.then((data) => {
+			console.log(data);
+			alert(data.msg);
 		});
+
+
+    	// $.post("/send",{ fieldID: fieldId , answer: JSON.stringify(jsonObjInputName) }, function(data){
+
+		// });
 	});
 
 });
