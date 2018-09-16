@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 var http = require('http');
 var fs = require('fs');
 var path = require('path');
@@ -149,42 +149,33 @@ app.post('/save', function(req, res) {
 });
 
 app.post('/send', function(req, res) {
-
-	console.log(req.body.vaildRe);
 	console.log('/send');
 
-	if(req.body.vaildRe == 'true')
-	{
-		var fieldId = parseInt(req.body.fieldID);
+	var fieldId = parseInt(req.body.fieldID);
+
+	Submit.updateOne(
+		{ form_id:fieldId },
+		{ $inc: { num_submissions: 1 } },
+		function(err, db) {
+			if (err) throw err;
+		}
+	);
+
+	var obj = JSON.parse(req.body.answer);
+	for(var input in obj) {
+		var pushObj = {
+
+		}
+		var newField = 'submissions.' + input;
+		pushObj[newField] = obj[input];
 
 		Submit.updateOne(
 			{ form_id:fieldId },
-			{ $inc: { num_submissions: 1 } },
+			{$push: pushObj},
 			function(err, db) {
 				if (err) throw err;
 			}
 		);
-
-		var obj = JSON.parse(req.body.answer);
-		for(var input in obj) {
-			var pushObj = {
-
-			}
-			var newField = 'submissions.' + input;
-			pushObj[newField] = obj[input];
-
-			Submit.updateOne(
-				{ form_id:fieldId },
-				{$push: pushObj},
-				function(err, db) {
-					if (err) throw err;
-				}
-			);
-		}
-	}
-	else 
-	{
-		console.log('false');
 	}
 });
 
