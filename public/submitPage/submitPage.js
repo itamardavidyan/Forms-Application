@@ -1,3 +1,5 @@
+var vaild = false;
+
 $(document).ready(function(){
 	var inputSum = 0;
 	var urlParams = new URLSearchParams(window.location.search);
@@ -32,6 +34,7 @@ $(document).ready(function(){
 
 
     $("#send").click(function(){
+		// validateform();
     	var jsonObjInputName = {
 
 		}
@@ -41,11 +44,32 @@ $(document).ready(function(){
 			var inputName = field.inputName;
 	        jsonObjInputName[inputName] = inputVal;
 		});
-
-    	$.post("/send",{fieldID: fieldId , answer: JSON.stringify(jsonObjInputName) }, function(data){
+		// alert(vaild);
+    	$.post("/send",{vaildRe: vaild , fieldID: fieldId , answer: JSON.stringify(jsonObjInputName) }, function(data){
 
 		});
-    });
+	});
+
 });
 
+// function validateform(){
+// 	var captcha_response = grecaptcha.getResponse();
+// 		if(captcha_response.length == 0 || grecaptcha != undefined )
+// 		{
+// 			// Captcha is not Passed
+// 			alert('  Please verify you are not a robot.');
+// 		}else{
+// 			$.get('/captchaTest',{'response':captcha_response},function(response){
+// 				if(response == undefined && response.responseCode == undefined && response.responseDesc == undefined  && response.responseCode !== 0 && response.responseDesc !== 'Sucess' ){
+// 					alert('  Youre a robot.');
+// 				}
+// 				grecaptcha.reset();
+// 			});
+// 		}
+// }
+
+function recaptcha_callback(){
+	// alert("callback working");
+	vaild = true;
+}
 

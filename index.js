@@ -1,13 +1,14 @@
 const express = require('express');
 const app = express();
 var bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 var http = require('http');
 var fs = require('fs');
 var path = require('path');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
+var Request = require('request');
 var mongooseDynamic = require ('mongoose-dynamic-schemas');
 var Schema = mongoose.Schema;
 var jsdom = require("jsdom");
@@ -148,38 +149,47 @@ app.post('/save', function(req, res) {
 });
 
 app.post('/send', function(req, res) {
+
+	console.log(req.body.vaildRe);
 	console.log('/send');
-    var fieldId = parseInt(req.body.fieldID);
 
-	Submit.updateOne(
-		{ form_id:fieldId },
-		{ $inc: { num_submissions: 1 } },
-		function(err, db) {
-			if (err) throw err;
-		}
-	);
-
-    var obj = JSON.parse(req.body.answer);
-    for(var input in obj) {
-    	var pushObj = {
-
-    	}
-    	var newField = 'submissions.' + input;
-        pushObj[newField] = obj[input];
+	if(req.body.vaildRe == 'true')
+	{
+		var fieldId = parseInt(req.body.fieldID);
 
 		Submit.updateOne(
 			{ form_id:fieldId },
-			{$push: pushObj},
+			{ $inc: { num_submissions: 1 } },
 			function(err, db) {
 				if (err) throw err;
 			}
 		);
-	}
 
+		var obj = JSON.parse(req.body.answer);
+		for(var input in obj) {
+			var pushObj = {
+
+			}
+			var newField = 'submissions.' + input;
+			pushObj[newField] = obj[input];
+
+			Submit.updateOne(
+				{ form_id:fieldId },
+				{$push: pushObj},
+				function(err, db) {
+					if (err) throw err;
+				}
+			);
+		}
+	}
+	else 
+	{
+		console.log('false');
+	}
 });
 
-const PORT = process.env.PORT || 3000;
-// const PORT = 8080;
+// const PORT = process.env.PORT || 3000;
+const PORT = 8080;
 app.listen(PORT, function() {
 	console.log("listen to PORT 8080");
 });
